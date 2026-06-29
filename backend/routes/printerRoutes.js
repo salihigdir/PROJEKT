@@ -1,29 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { checkAllPrinters } = require("../services/printerService");
+const { runPrinterCheck } = require("../services/printerCheckJob");
 const { query } = require("../db/db");
 
-// GET /api/printers/status
+// GET /api/printers/status — check printers and persist to puls_log
 router.get("/status", async (req, res) => {
   try {
-    const results = await checkAllPrinters();
-
-    // Persist results to DB (fire-and-forget errors don't block response)
-    (async () => {
-      try {
-        const insertText = `INSERT INTO printer_statuses (name, ip, online, status, checked_at) VALUES ($1,$2,$3,$4,$5)`;
-        await Promise.all(
-          results.map((p) =>
-            query(insertText, [p.name, p.ip, p.online, p.status, p.checkedAt])
-          )
-        );
-      } catch (dbErr) {
-        console.error("Failed to persist printer statuses:", dbErr);
-      }
-    })();
-
-    res.json(results);
+    const result = await runPrinterCheck();
+    res.json(result.printers);
   } catch (error) {
     console.error("Printer status error:", error);
     res.status(500).json({
@@ -43,11 +28,30 @@ router.get("/history", async (req, res) => {
 
   try {
     const rows = await query(
-      `SELECT name, ip, online, status, checked_at FROM printer_statuses WHERE ip = $1 ORDER BY checked_at DESC LIMIT $2`,
+      `SELECT
+         printer_name AS name,
+         printer_ip AS ip,
+         online,
+         message,
+         checked_at
+       FROM puls_log
+       WHERE printer_ip = $1
+         AND event_type = 'printer_status'
+       ORDER BY checked_at DESC
+       LIMIT $2`,
       [ip, limit]
     );
 
-    res.json(rows.rows);
+    const history = rows.rows.map((row) => ({
+      name: row.name,
+      ip: row.ip,
+      online: row.online,
+      status: row.online ? "ONLINE" : "OFFLINE",
+      message: row.message,
+      checked_at: row.checked_at
+    }));
+
+    res.json(history);
   } catch (error) {
     console.error("Failed to load history:", error);
     res.status(500).json({ message: "Failed to load history" });

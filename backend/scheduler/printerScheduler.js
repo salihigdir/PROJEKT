@@ -1,34 +1,20 @@
-const { checkAllPrinters } = require("../services/printerService");
-const { query } = require("../db/db");
+const { runPrinterCheck } = require("../services/printerCheckJob");
+
+const INTERVAL_MS = 15 * 60 * 1000;
 
 async function savePrinterStatuses() {
   try {
-    const results = await checkAllPrinters();
-
-    const insertText = `
-      INSERT INTO printer_statuses (name, ip, online, status, checked_at)
-      VALUES ($1, $2, $3, $4, $5)
-    `;
-
-    for (const printer of results) {
-      await query(insertText, [
-        printer.name,
-        printer.ip,
-        printer.online,
-        printer.status,
-        printer.checkedAt
-      ]);
-    }
-
-    console.log(`Saved ${results.length} printer status records at ${new Date().toISOString()}`);
+    const result = await runPrinterCheck();
+    console.log(`[PULS] ${result.summary}`);
   } catch (error) {
-    console.error("Error saving printer statuses:", error);
+    console.error("[PULS] Error saving printer statuses:", error);
   }
 }
 
 function startPrinterScheduler() {
   savePrinterStatuses();
-  setInterval(savePrinterStatuses, 15 * 60 * 1000);
+  setInterval(savePrinterStatuses, INTERVAL_MS);
+  console.log(`[PULS] Scheduler started (every ${INTERVAL_MS / 60000} minutes)`);
 }
 
 module.exports = {

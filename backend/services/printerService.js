@@ -18,6 +18,7 @@ async function checkPrinter(printer) {
   return {
     name: printer.name,
     ip: printer.ip,
+    location: printer.location || "Unbekannt",
     online: pingResult.alive,
     status: pingResult.alive ? "ONLINE" : "OFFLINE",
     checkedAt: checkedAt.toISOString(),

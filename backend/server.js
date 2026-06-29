@@ -18,7 +18,9 @@ if (fs.existsSync(envPath)) {
 }
 
 const printerRoutes = require("./routes/printerRoutes");
+const pulsRoutes = require("./routes/pulsRoutes");
 const { initializeDatabase } = require("./db/db");
+const { startPrinterScheduler } = require("./scheduler/printerScheduler");
 
 const app = express();
 const PORT = 3000;
@@ -37,12 +39,20 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-// Printer route
+// Printer routes
 app.use("/api/printers", printerRoutes);
+
+// PULS integration routes
+app.use("/api/puls", pulsRoutes);
 
 async function startServer() {
   try {
     await initializeDatabase();
+
+    if (process.env.ENABLE_SCHEDULER === "true") {
+      startPrinterScheduler();
+    }
+
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server läuft: http://localhost:${PORT}`);
     });

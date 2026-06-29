@@ -1,5 +1,5 @@
 import { fetchPrinterStatus, fetchPrinterHistory } from "./api.js";
-import { DATE_OPTIONS, formatLocalDate } from "./config.js";
+import { DATE_OPTIONS, formatLocalDate, formatNow } from "./config.js";
 
 const container = document.getElementById("printerContainer");
 const onlineCountElement = document.getElementById("onlineCount");
@@ -35,7 +35,8 @@ function renderPrinters(printers) {
 
       <div class="printer-info">
         <div><strong>IP-Adresse:</strong> ${printer.ip}</div>
-        <div><strong>Letzte Prüfung:</strong> ${printer.lastCheck}</div>
+        <div><strong>Standort:</strong> ${printer.location || "—"}</div>
+        <div><strong>Letzte Prüfung:</strong> ${formatLocalDate(printer.checkedAt)}</div>
       </div>
     `;
 
@@ -54,7 +55,7 @@ function renderPrinters(printers) {
 
   onlineCountElement.textContent = onlineCount;
   offlineCountElement.textContent = offlineCount;
-  refreshTimeElement.textContent = new Date().toLocaleString("de-DE");
+  refreshTimeElement.textContent = formatNow();
 }
 
 async function loadPrinterStatus() {
