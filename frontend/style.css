@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 34px;
+}
+
+header p {
+  margin-top: 10px;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-box {
+  flex: 1;
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.summary-box span {
+  display: block;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.summary-box p {
+  margin: 8px 0 0;
+  color: #6b7280;
+}
+
+.printer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.printer-card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+  border-left: 8px solid gray;
+}
+
+.printer-card.online {
+  border-left-color: #16a34a;
+}
+
+.printer-card.offline {
+  border-left-color: #dc2626;
+}
+
+.printer-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.online .status-dot {
+  background: #16a34a;
+}
+
+.offline .status-dot {
+  background: #dc2626;
+}
+
+.printer-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.status-text {
+  margin-top: 18px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.online .status-text {
+  color: #16a34a;
+}
+
+.offline .status-text {
+  color: #dc2626;
+}
+
+.printer-info {
+  margin-top: 14px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+footer {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}

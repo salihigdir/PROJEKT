@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yazıcı İzleme Panosu</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Yazıcı İzleme Panosu</h1>
+    <p>Ağ yazıcılarının çevrimiçi / çevrimdışı durum kontrolü</p>
+  </header>
+
+  <main>
+    <section class="summary">
+      <div class="summary-box">
+        <span id="onlineCount">0</span>
+        <p>Çevrimiçi</p>
+      </div>
+
+      <div class="summary-box">
+        <span id="offlineCount">0</span>
+        <p>Çevrimdışı</p>
+      </div>
+    </section>
+
+    <section id="printerContainer" class="printer-container">
+      <p>Yazıcı durumları yükleniyor...</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Son otomatik yenileme: <span id="refreshTime">-</span></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
