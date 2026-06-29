@@ -35,17 +35,36 @@ main {
 
 .summary {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 30px;
+  align-items: center;
 }
 
 .summary-box {
-  flex: 1;
+  flex: 1 1 200px;
   background: white;
   border-radius: 14px;
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.refresh-button {
+  min-width: 220px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 14px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.18);
+}
+
+.refresh-button:hover {
+  background: #1d4ed8;
 }
 
 .summary-box span {

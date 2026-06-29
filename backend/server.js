@@ -1,8 +1,24 @@
+const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
+const envPath = path.join(__dirname, ".env");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf8");
+  envContent.split(/\r?\n/).forEach((line) => {
+    const match = line.match(/^\s*([A-Za-z0-9_]+)\s*=\s*(.*)\s*$/);
+    if (match) {
+      const [, key, value] = match;
+      if (process.env[key] === undefined) {
+        process.env[key] = value;
+      }
+    }
+  });
+}
+
 const printerRoutes = require("./routes/printerRoutes");
+const { initializeDatabase } = require("./db/db");
 
 const app = express();
 const PORT = 3000;
@@ -16,7 +32,7 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 // API test endpoint
 app.get("/api/test", (req, res) => {
   res.json({
-    message: "API çalışıyor",
+    message: "API läuft",
     status: "OK"
   });
 });
@@ -24,6 +40,16 @@ app.get("/api/test", (req, res) => {
 // Printer route
 app.use("/api/printers", printerRoutes);
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server çalışıyor: http://localhost:${PORT}`);
-});
+async function startServer() {
+  try {
+    await initializeDatabase();
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server läuft: http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+}
+
+startServer();

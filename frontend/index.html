@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yazıcı İzleme Panosu</title>
+  <title>Drucker-Monitoring Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Yazıcı İzleme Panosu</h1>
-    <p>Ağ yazıcılarının çevrimiçi / çevrimdışı durum kontrolü</p>
+    <h1>Drucker-Monitoring Dashboard</h1>
+    <p>Überwachung der Netzwerkdrucker: online / offline</p>
   </header>
 
   <main>
     <section class="summary">
       <div class="summary-box">
         <span id="onlineCount">0</span>
-        <p>Çevrimiçi</p>
+        <p>Online</p>
       </div>
 
       <div class="summary-box">
         <span id="offlineCount">0</span>
-        <p>Çevrimdışı</p>
+        <p>Offline</p>
       </div>
+
+      <button id="refreshButton" class="refresh-button">Aktualisieren</button>
     </section>
 
     <section id="printerContainer" class="printer-container">
-      <p>Yazıcı durumları yükleniyor...</p>
+      <p>Druckerstatus wird geladen...</p>
     </section>
   </main>
 
   <footer>
-    <p>Son otomatik yenileme: <span id="refreshTime">-</span></p>
+    <p>Letzte automatische Aktualisierung: <span id="refreshTime">-</span></p>
   </footer>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

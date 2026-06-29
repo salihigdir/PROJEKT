@@ -11,7 +11,7 @@ router.get("/status", async (req, res) => {
   } catch (error) {
     console.error("Printer status error:", error);
     res.status(500).json({
-      message: "Yazıcı durumları kontrol edilirken hata oluştu"
+      message: "Fehler bei der Prüfung des Druckerstatus"
     });
   }
 });

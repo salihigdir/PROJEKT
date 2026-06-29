@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS printer_statuses (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  ip TEXT NOT NULL,
+  online BOOLEAN NOT NULL,
+  status TEXT NOT NULL,
+  checked_at TIMESTAMP NOT NULL
+);

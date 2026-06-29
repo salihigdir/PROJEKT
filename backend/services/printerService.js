@@ -13,25 +13,21 @@ async function checkPrinter(printer) {
     timeout: 2
   });
 
+  const checkedAt = new Date();
+
   return {
     name: printer.name,
     ip: printer.ip,
     online: pingResult.alive,
     status: pingResult.alive ? "ONLINE" : "OFFLINE",
-    lastCheck: new Date().toLocaleString("tr-TR")
+    checkedAt: checkedAt.toISOString(),
+    lastCheck: checkedAt.toLocaleString("de-DE")
   };
 }
 
 async function checkAllPrinters() {
   const printers = getPrinters();
-
-  const results = [];
-
-  for (const printer of printers) {
-    const result = await checkPrinter(printer);
-    results.push(result);
-  }
-
+  const results = await Promise.all(printers.map(checkPrinter));
   return results;
 }
 
