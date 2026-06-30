@@ -45,7 +45,7 @@ function renderPrinters(printers) {
         const history = await fetchPrinterHistory(printer.ip);
         showHistoryModal(printer, history);
       } catch (err) {
-        alert("Geçmiş alınırken hata oluştu.");
+        alert("Fehler beim Laden des Verlaufs.");
         console.error(err);
       }
     });
@@ -78,7 +78,6 @@ loadPrinterStatus();
 setInterval(loadPrinterStatus, 15 * 60 * 1000);
 
 function showHistoryModal(printer, history) {
-  // simple modal element
   const modal = document.createElement("div");
   modal.style.position = "fixed";
   modal.style.left = "0";
@@ -101,12 +100,12 @@ function showHistoryModal(printer, history) {
   box.style.overflow = "auto";
 
   const title = document.createElement("h3");
-  title.textContent = `${printer.name} - ${printer.ip} geçmişi`;
+  title.textContent = `${printer.name} - ${printer.ip} Verlauf`;
   box.appendChild(title);
 
   if (!history || history.length === 0) {
     const p = document.createElement("p");
-    p.textContent = "Geçmiş kaydı bulunamadı.";
+    p.textContent = "Kein Verlaufseintrag gefunden.";
     box.appendChild(p);
   } else {
     const list = document.createElement("ul");
@@ -120,7 +119,7 @@ function showHistoryModal(printer, history) {
   }
 
   const closeBtn = document.createElement("button");
-  closeBtn.textContent = "Kapat";
+  closeBtn.textContent = "Schließen";
   closeBtn.style.marginTop = "12px";
   closeBtn.addEventListener("click", () => document.body.removeChild(modal));
   box.appendChild(closeBtn);

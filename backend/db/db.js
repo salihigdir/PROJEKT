@@ -45,11 +45,26 @@ async function createDatabaseIfNotExists() {
   }
 }
 
+async function backfillPulsLogFields() {
+  const backfillPath = path.join(__dirname, "backfill_puls_log.sql");
+  if (!fs.existsSync(backfillPath)) {
+    return;
+  }
+
+  const sql = fs.readFileSync(backfillPath, "utf8");
+  const result = await query(sql);
+
+  if (result.rowCount > 0) {
+    console.log(`Backfilled ${result.rowCount} puls_log records with PULS fields`);
+  }
+}
+
 async function initializeDatabase() {
   await createDatabaseIfNotExists();
   const initPath = path.join(__dirname, "init.sql");
   const sql = fs.readFileSync(initPath, "utf8");
   await query(sql);
+  await backfillPulsLogFields();
 }
 
 module.exports = {

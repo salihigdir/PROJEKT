@@ -1,7 +1,7 @@
 [
   {
-    "name": "ZD411-Lager",
-    "ip": "8.8.8.8",
+    "name": "ZD420-Lager",
+    "ip": "192.168.0.8",
     "location": "Lager"
   },
   {
