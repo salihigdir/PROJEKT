@@ -2,6 +2,7 @@ const { query } = require("../db/db");
 
 function formatLogDate(date) {
   return new Date(date).toLocaleString("de-DE", {
+    timeZone: "Europe/Berlin",
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
