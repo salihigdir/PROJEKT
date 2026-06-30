@@ -28,10 +28,10 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Frontend dosyalarını yayınla
+// Frontend-Dateien bereitstellen
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-// API test endpoint
+// API-Test-Endpunkt
 app.get("/api/test", (req, res) => {
   res.json({
     message: "API läuft",
@@ -39,10 +39,10 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-// Printer routes
+// Drucker-Routen
 app.use("/api/printers", printerRoutes);
 
-// PULS integration routes
+// PULS-Integrationsrouten
 app.use("/api/puls", pulsRoutes);
 
 async function startServer() {
@@ -57,7 +57,7 @@ async function startServer() {
       console.log(`Server läuft: http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("Failed to start server:", error);
+    console.error("Serverstart fehlgeschlagen:", error);
     process.exit(1);
   }
 }

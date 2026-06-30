@@ -1,4 +1,4 @@
-// Display settings for Germany (CET/CEST, UTC+1 / UTC+2)
+// Anzeigeeinstellungen für Deutschland (CET/CEST)
 export const LOCALE = "de-DE";
 export const TIME_ZONE = "Europe/Berlin";
 
@@ -25,17 +25,17 @@ export function parseToLocalDate(value) {
 
   const dateString = String(value).trim();
 
-  // ISO string with timezone (Z or ±hh:mm)
+  // ISO-Zeichenkette mit Zeitzone (Z oder ±hh:mm)
   if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(dateString)) {
     return new Date(dateString);
   }
 
-  // PostgreSQL naive timestamp: "2026-06-29 14:30:00"
+  // PostgreSQL-Zeitstempel ohne Zeitzone: "2026-06-29 14:30:00"
   const pgMatch = dateString.match(
     /^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)$/
   );
   if (pgMatch) {
-    // Values were stored from UTC ISO strings without timezone info
+    // Werte wurden als UTC-ISO ohne Zeitzonenangabe gespeichert
     return new Date(`${pgMatch[1]}T${pgMatch[2]}Z`);
   }
 

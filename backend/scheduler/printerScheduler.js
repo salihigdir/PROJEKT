@@ -7,14 +7,14 @@ async function savePrinterStatuses() {
     const result = await runPrinterCheck();
     console.log(`[PULS] ${result.summary}`);
   } catch (error) {
-    console.error("[PULS] Error saving printer statuses:", error);
+    console.error("[PULS] Fehler beim Speichern des Druckerstatus:", error);
   }
 }
 
 function startPrinterScheduler() {
   savePrinterStatuses();
   setInterval(savePrinterStatuses, INTERVAL_MS);
-  console.log(`[PULS] Scheduler started (every ${INTERVAL_MS / 60000} minutes)`);
+  console.log(`[PULS] Scheduler gestartet (alle ${INTERVAL_MS / 60000} Minuten)`);
 }
 
 module.exports = {

@@ -4,7 +4,7 @@ const router = express.Router();
 const { runPrinterCheck } = require("../services/printerCheckJob");
 const { query } = require("../db/db");
 
-// GET /api/puls/check — PULS trigger: check all printers and write to puls_log
+// GET /api/puls/check — PULS-Auslöser: alle Drucker prüfen und in puls_log schreiben
 router.get("/check", async (req, res) => {
   try {
     const result = await runPrinterCheck();
@@ -17,14 +17,14 @@ router.get("/check", async (req, res) => {
       printers: result.printers
     });
   } catch (error) {
-    console.error("PULS check error:", error);
+    console.error("Fehler bei der PULS-Prüfung:", error);
     res.status(500).json({
       message: "Fehler bei der PULS-Druckerprüfung"
     });
   }
 });
 
-// GET /api/puls/logs?limit=50 — recent PULS log entries
+// GET /api/puls/logs?limit=50 — letzte PULS-Log-Einträge
 router.get("/logs", async (req, res) => {
   const limit = Math.min(parseInt(req.query.limit || "50", 10), 200);
 
@@ -41,8 +41,8 @@ router.get("/logs", async (req, res) => {
 
     res.json(rows.rows);
   } catch (error) {
-    console.error("Failed to load PULS logs:", error);
-    res.status(500).json({ message: "Failed to load PULS logs" });
+    console.error("Fehler beim Laden der PULS-Logs:", error);
+    res.status(500).json({ message: "Fehler beim Laden der PULS-Logs" });
   }
 });
 

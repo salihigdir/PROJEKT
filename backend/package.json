@@ -1,7 +1,7 @@
 {
   "name": "projekt-backend",
   "version": "1.0.0",
-  "description": "Backend service for printer status monitoring",
+  "description": "Backend-Dienst zur Überwachung des Druckerstatus",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -1,4 +1,4 @@
--- Legacy table replaced by puls_log
+-- Alte Tabelle durch puls_log ersetzt
 DROP TABLE IF EXISTS printer_statuses;
 
 CREATE TABLE IF NOT EXISTS puls_log (

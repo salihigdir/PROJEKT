@@ -1,42 +1,42 @@
-# Printer Monitoring (PROJEKT)
+# Drucker-Monitoring (PROJEKT)
 
-Zebra printer monitoring with PULS integration.
+Zebra-Druckerüberwachung mit PULS-Integration.
 
 Backend: `backend/` (Node.js + Express + PostgreSQL)  
-Frontend: `frontend/` (static files served by backend)
+Frontend: `frontend/` (statische Dateien, vom Backend bereitgestellt)
 
-## Quick start
+## Schnellstart
 
-1. Install dependencies:
+1. Abhängigkeiten installieren:
 
 ```bash
 cd backend
 npm install
 ```
 
-2. Configure database: copy `.env.example` to `.env` and set `PGPASSWORD` and other values.
+2. Datenbank konfigurieren: `.env.example` nach `.env` kopieren und `PGPASSWORD` sowie weitere Werte setzen.
 
-3. Start backend:
+3. Backend starten:
 
 ```bash
 cd backend
 npm start
 ```
 
-4. Open dashboard: `http://localhost:3000`
+4. Dashboard öffnen: `http://localhost:3000`
 
-## PULS integration
+## PULS-Integration
 
-PULS can trigger a full printer check in two ways:
+PULS kann eine vollständige Druckerprüfung auf zwei Arten auslösen:
 
-**CLI (recommended for cron / Ubuntu):**
+**CLI (empfohlen für Cron / Ubuntu):**
 
 ```bash
 cd backend
 npm run check
 ```
 
-Exit code: `0` = all online, `1` = at least one offline, `2` = error.
+Exit-Code: `0` = alle online, `1` = mindestens einer offline, `2` = Fehler.
 
 **HTTP:**
 
@@ -44,38 +44,38 @@ Exit code: `0` = all online, `1` = at least one offline, `2` = error.
 curl http://localhost:3000/api/puls/check
 ```
 
-Results are written to the `puls_log` table (PULS_LOG):
+Ergebnisse werden in der Tabelle `puls_log` (PULS_LOG) gespeichert:
 
-| event_type       | Example message |
-|------------------|-----------------|
+| event_type       | Beispielnachricht |
+|------------------|-------------------|
 | `summary`        | `3 von 5 Druckern online.` |
-| `printer_status` | `ZD411-Lager (Lager): ONLINE` |
+| `printer_status` | `ZD420-Lager (Lager): ONLINE` |
 | `offline`        | `Drucker mit IP 192.168.0.120 (Lager) offline. Zuletzt online: 29.06.2026, 09:18.` |
 
-Recent logs: `GET /api/puls/logs?limit=50`
+Letzte Logs: `GET /api/puls/logs?limit=50`
 
-## Printer configuration
+## Druckerkonfiguration
 
-Edit `backend/printers.json`:
+Datei `backend/printers.json` bearbeiten:
 
 ```json
 {
-  "name": "ZD411-Lager",
-  "ip": "192.168.0.120",
+  "name": "ZD420-Lager",
+  "ip": "192.168.0.8",
   "location": "Lager"
 }
 ```
 
-## API overview
+## API-Übersicht
 
-| Endpoint | Purpose |
-|----------|---------|
-| `GET /api/printers/status` | Live ping check (dashboard, no DB write) |
-| `GET /api/printers/history?ip=...` | Status history from `puls_log` |
-| `GET /api/puls/check` | Full check + write to `puls_log` |
-| `GET /api/puls/logs` | Recent log entries |
+| Endpunkt | Zweck |
+|----------|-------|
+| `GET /api/printers/status` | Drucker prüfen und in `puls_log` speichern |
+| `GET /api/printers/history?ip=...` | Statusverlauf aus `puls_log` |
+| `GET /api/puls/check` | Vollständige Prüfung + Schreiben in `puls_log` |
+| `GET /api/puls/logs` | Letzte Log-Einträge |
 
 ## Scheduler
 
-Set `ENABLE_SCHEDULER=true` in `.env` to run a PULS check every 15 minutes while the server is running.  
-Alternatively, let PULS or system cron call `npm run check` directly.
+`ENABLE_SCHEDULER=true` in `.env` setzen, um alle 15 Minuten eine PULS-Prüfung auszuführen, solange der Server läuft.  
+Alternativ kann PULS oder System-Cron `npm run check` direkt aufrufen.

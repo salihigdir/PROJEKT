@@ -4,13 +4,13 @@ const router = express.Router();
 const { runPrinterCheck } = require("../services/printerCheckJob");
 const { query } = require("../db/db");
 
-// GET /api/printers/status — check printers and persist to puls_log
+// GET /api/printers/status — Drucker prüfen und in puls_log speichern
 router.get("/status", async (req, res) => {
   try {
     const result = await runPrinterCheck();
     res.json(result.printers);
   } catch (error) {
-    console.error("Printer status error:", error);
+    console.error("Fehler beim Druckerstatus:", error);
     res.status(500).json({
       message: "Fehler bei der Prüfung des Druckerstatus"
     });
@@ -23,7 +23,7 @@ router.get("/history", async (req, res) => {
   const limit = Math.min(parseInt(req.query.limit || "10", 10), 100);
 
   if (!ip) {
-    return res.status(400).json({ message: "Missing ip query parameter" });
+    return res.status(400).json({ message: "Fehlender ip-Abfrageparameter" });
   }
 
   try {
@@ -53,8 +53,8 @@ router.get("/history", async (req, res) => {
 
     res.json(history);
   } catch (error) {
-    console.error("Failed to load history:", error);
-    res.status(500).json({ message: "Failed to load history" });
+    console.error("Fehler beim Laden des Verlaufs:", error);
+    res.status(500).json({ message: "Fehler beim Laden des Verlaufs" });
   }
 });
 

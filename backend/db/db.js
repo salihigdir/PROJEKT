@@ -33,10 +33,10 @@ async function createDatabaseIfNotExists() {
 
   try {
     await adminPool.query(`CREATE DATABASE "${targetDatabase}"`);
-    console.log(`Created database ${targetDatabase}`);
+    console.log(`Datenbank ${targetDatabase} erstellt`);
   } catch (error) {
     if (error.code === "42P04") {
-      console.log(`Database ${targetDatabase} already exists`);
+      console.log(`Datenbank ${targetDatabase} existiert bereits`);
     } else {
       throw error;
     }
@@ -55,7 +55,7 @@ async function backfillPulsLogFields() {
   const result = await query(sql);
 
   if (result.rowCount > 0) {
-    console.log(`Backfilled ${result.rowCount} puls_log records with PULS fields`);
+    console.log(`${result.rowCount} puls_log-Einträge mit PULS-Feldern nachgefüllt`);
   }
 }
 
